@@ -1,13 +1,10 @@
 package com.asj.forestala2.controller;
 
-import com.asj.forestala2.negocio.domain.Persona;
 import com.asj.forestala2.negocio.domain.Usuario;
-import com.asj.forestala2.negocio.dto.ActualizarFormDTO;
 import com.asj.forestala2.negocio.dto.RegistroDTO;
 import com.asj.forestala2.negocio.dto.UsuarioCompletoDTO;
 import com.asj.forestala2.negocio.dto.UsuarioDTO;
 import com.asj.forestala2.negocio.mapper.UsuarioMapper;
-import com.asj.forestala2.service.PersonaServicio;
 import com.asj.forestala2.service.UsuarioServicio;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +20,11 @@ import java.util.stream.Collectors;
 public class UsuarioController {
     private final UsuarioServicio usuarioServicio;
     private final UsuarioMapper usuarioMapper;
-    private final PersonaServicio personaServicio;
 
 
-    public UsuarioController(UsuarioServicio usuarioServicio, UsuarioMapper usuarioMapper, PersonaServicio personaServicio) {
+    public UsuarioController(UsuarioServicio usuarioServicio, UsuarioMapper usuarioMapper) {
         this.usuarioServicio = usuarioServicio;
         this.usuarioMapper = usuarioMapper;
-        this.personaServicio = personaServicio;
     }
 
     @PostMapping
@@ -69,15 +64,6 @@ public class UsuarioController {
         return usuarioDTO;
     }
 
-    @GetMapping("/usuario-form/{id}")
-    public UsuarioCompletoDTO obtenerCompletoPorId(@PathVariable("id") Integer id) {
-        Usuario usuario = usuarioServicio.findById(id);
-        UsuarioCompletoDTO usuarioCompletoDTO = usuarioMapper.entityToDTOCompleto(usuario);
-        usuarioCompletoDTO.setIdUsuario(usuario.getIdUsuario());
-        usuarioCompletoDTO.setPersona(usuario.getPersona());
-        return usuarioCompletoDTO;
-    }
-
     @PutMapping("update/{id}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable("id") Integer id, @RequestBody UsuarioDTO usuarioDTO){
         try{
@@ -88,18 +74,6 @@ public class UsuarioController {
             throw ex;
         }
 
-    }
-
-    @PutMapping("/update-form/{id}")
-    public ResponseEntity<?> actualizarForm(@PathVariable("id") Integer id, @RequestBody ActualizarFormDTO actualizarFormDTO){
-        try {
-            Usuario usuario = usuarioMapper.actualizarDtoToEntity(actualizarFormDTO);
-            Usuario actualizado =usuarioServicio.updateUsuario(id, usuario);
-            return ResponseEntity.status(HttpStatus.OK).body(actualizado);
-
-            } catch (RuntimeException ex){
-                throw ex;
-            }
     }
 
     @DeleteMapping("borrar/{id}")

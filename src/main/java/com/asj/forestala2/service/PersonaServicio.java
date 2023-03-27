@@ -1,9 +1,6 @@
 package com.asj.forestala2.service;
 
 import com.asj.forestala2.negocio.domain.Persona;
-import com.asj.forestala2.negocio.domain.Usuario;
-import com.asj.forestala2.negocio.dto.ActualizarPersonaDTO;
-import com.asj.forestala2.negocio.dto.PersonaDTO;
 
 import java.util.List;
 import java.util.Optional;

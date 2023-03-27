@@ -80,19 +80,6 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         usuarioActualizado.setPersona(usuario.getPersona());
 
 
-
-//        Persona persona = usuario.getPersona();
-//        persona.setNombre(usuario.getPersona().getNombre());
-//        persona.setApellido(usuario.getPersona().getApellido());
-//        persona.setCalle(usuario.getPersona().getCalle());
-//        persona.setAltura(usuario.getPersona().getAltura());
-//        persona.setLocalidad(usuario.getPersona().getLocalidad());
-//        persona.setTelContacto(usuario.getPersona().getTelContacto());
-//        persona.setPlantacionParticular(usuario.getPersona().getPlantacionParticular());
-
-
-//        usuario.setPersona(persona);
-
         return this.repository.save(usuarioActualizado);
 
     }

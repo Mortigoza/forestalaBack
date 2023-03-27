@@ -1,11 +1,8 @@
 package com.asj.forestala2.controller;
 
 import com.asj.forestala2.negocio.domain.Persona;
-import com.asj.forestala2.negocio.domain.Usuario;
 import com.asj.forestala2.negocio.dto.ActualizarPersonaDTO;
 import com.asj.forestala2.negocio.dto.PersonaDTO;
-import com.asj.forestala2.negocio.dto.RegistroDTO;
-import com.asj.forestala2.negocio.dto.UsuarioDTO;
 import com.asj.forestala2.negocio.mapper.PersonaMapper;
 import com.asj.forestala2.service.PersonaServicio;
 import org.springframework.http.HttpStatus;
@@ -28,20 +25,6 @@ public class PersonaController {
         this.personaServicio = personaServicio;
         this.personaMapper = personaMapper;
     }
-
-//    @PatchMapping ("update/{id}")
-//    public ResponseEntity<?> actualizar(@PathVariable("id") Integer id, @RequestBody ActualizarPersonaDTO  actualizarPersonaDTO) {
-//
-//        try {
-//            Persona persona = personaMapper.ActualizarPersonaDtoToEntity(actualizarPersonaDTO);
-//            Persona personaActualizada = personaServicio.updatePersona(id, persona);
-//
-//            return ResponseEntity.ok().body(personaActualizada);
-//
-//        } catch (RuntimeException ex) {
-//            throw ex;
-//        }
-//    }
 
     @PutMapping ("update/{id}")
     public ResponseEntity<?> actualizarTodo(@PathVariable("id") Integer id, @RequestBody ActualizarPersonaDTO  actualizarPersonaDTO) {
@@ -78,11 +61,6 @@ public class PersonaController {
         return dtos;
     }
 
-//    @GetMapping("/personas/{id}")
-//    public PersonaDTO obtenerPorId(@PathVariable("id") Integer id){
-//        PersonaDTO personaDTO = personaMapper.entityToDto(this.personaServicio.findById(id).orElse(new Persona()));
-//        return personaDTO;
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPersonasPorId(@PathVariable int id){
@@ -92,12 +70,6 @@ public class PersonaController {
             personaDTO = personaMapper.entityToDto(personas.get());
 
         }
-//        List<PersonaDTO> dtos = personas
-//                .stream()
-//                //.map(p -> PersonajeMapper.entityToDto(p))
-//                .map(personaMapper::entityToDto)
-//                .collect(Collectors.toList());
-//        return ResponseEntity.ok(dtos);
         return ResponseEntity.ok(personaDTO);
     }
 

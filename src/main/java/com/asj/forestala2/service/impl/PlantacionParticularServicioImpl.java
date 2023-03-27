@@ -5,7 +5,6 @@ import com.asj.forestala2.negocio.domain.Persona;
 import com.asj.forestala2.negocio.domain.PlantacionParticular;
 import com.asj.forestala2.repository.PersonaRepository;
 import com.asj.forestala2.repository.PlantacionParticularRepository;
-import com.asj.forestala2.service.PersonaServicio;
 import com.asj.forestala2.service.PlantacionParticularServicio;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
