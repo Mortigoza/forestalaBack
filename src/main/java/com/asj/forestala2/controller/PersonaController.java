@@ -1,95 +1,72 @@
 package com.asj.forestala2.controller;
 
+import com.asj.forestala2.exception.ErrorProcessException;
+import com.asj.forestala2.exception.ErrorResponse;
 import com.asj.forestala2.negocio.domain.Persona;
 import com.asj.forestala2.negocio.dto.ActualizarPersonaDTO;
 import com.asj.forestala2.negocio.dto.PersonaDTO;
 import com.asj.forestala2.negocio.mapper.PersonaMapper;
 import com.asj.forestala2.service.PersonaServicio;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @CrossOrigin("http://localhost:4200")
 @RestController
 @RequestMapping("/personas")
 public class PersonaController {
 
-    private final PersonaServicio personaServicio;
-    private final PersonaMapper personaMapper;
+    private final PersonaServicio personService;
 
-    public PersonaController(PersonaServicio personaServicio, PersonaMapper personaMapper) {
-        this.personaServicio = personaServicio;
-        this.personaMapper = personaMapper;
-    }
 
-    @PutMapping ("update/{id}")
-    public ResponseEntity<?> actualizarTodo(@PathVariable("id") Integer id, @RequestBody ActualizarPersonaDTO  actualizarPersonaDTO) {
+    @PutMapping ("/{id}")
+    public ResponseEntity<?> actualizarTodo(@PathVariable("id") Integer id,
+                                            @RequestBody ActualizarPersonaDTO  actualizarPersonaDTO) throws ErrorProcessException {
 
-        try {
-            Persona persona = personaMapper.actualizarPersonaDtoToEntity(actualizarPersonaDTO);
-            Persona personaActualizada = personaServicio.updatePersona(id, persona);
-
-            return ResponseEntity.ok().body(personaActualizada);
-
-        } catch (RuntimeException ex) {
-            throw ex;
-        }
+        return ResponseEntity.ok().body(personService.updatePersona(id, actualizarPersonaDTO));
     }
 
     @GetMapping
-    public ResponseEntity<List<PersonaDTO>> getAllPersonas(){
-        List<Persona> personas = this.personaServicio.getAll();
-        List<PersonaDTO> dtos = personas
-                .stream()
-                //.map(p -> PersonajeMapper.entityToDto(p))
-                .map(personaMapper::entityToDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    @ApiOperation(value = "Get all people", notes = "Returns a list of response")
+    public ResponseEntity<List<?>> getAllPerson() throws ErrorProcessException {
+        return ResponseEntity.ok(personService.getAll());
     }
 
     @GetMapping("/con-plantaciones")
-    public List<PersonaDTO> getAllPersonasConPlantaciones(){
-        List<Persona> personas = this.personaServicio.getAllConPlant();
-        List<PersonaDTO> dtos = personas
-                .stream()
-                .map(personaMapper::entityToDto)
-                .collect(Collectors.toList());
-        return dtos;
+    @ApiOperation(value = "Get all people with plantations", notes = "Returns a list of response")
+    public List<?> getAllPersonasConPlantaciones() throws ErrorProcessException{
+        return personService.getAllConPlant();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPersonasPorId(@PathVariable int id){
-        Optional<Persona> personas = this.personaServicio.findById(id);
-        PersonaDTO personaDTO = new PersonaDTO();
-        if(personas.isPresent()){
-            personaDTO = personaMapper.entityToDto(personas.get());
-
-        }
-        return ResponseEntity.ok(personaDTO);
+    @ApiOperation(value = "get person by id", notes = "Returns response type person")
+    public ResponseEntity<?> getPersonById(@PathVariable int id) throws ErrorProcessException {
+        return ResponseEntity.ok(personService.findById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> borrar(@PathVariable("id") Integer id){
-        this.personaServicio.deletePersona(id);
-        //con esto retorno 204 siempre, para que no se queden esperando
-        return ResponseEntity.status(HttpStatus.OK).body("La persona ha sido eliminado con éxito.");
+    @ApiOperation(value = "delete person by id", notes = "Returns response type person")
+    public ResponseEntity<?> deletePerson(@PathVariable("id") Integer id) throws ErrorProcessException{
+        return ResponseEntity.status(HttpStatus.OK).body(personService.deletePersona(id));
     }
 
     @PostMapping
-    public ResponseEntity<?> createPersona(@RequestBody PersonaDTO personaDTO){
+    @ApiOperation(value = "create person", notes = "Returns response type person")
+    public ResponseEntity<?> createPerson(@Valid @RequestBody PersonaDTO personaDTO) throws ErrorProcessException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(personService.crearPersona(personaDTO));
 
-        try {
-            Persona persona = personaMapper.dtoToEntity(personaDTO);
-            Persona personaCreada = personaServicio.crearPersona(persona);
-            return ResponseEntity.status(HttpStatus.CREATED).body(personaCreada);
-        } catch (RuntimeException ex){
-            throw ex;
-        }
     }
 
 }

@@ -1,21 +1,24 @@
 package com.asj.forestala2.service;
 
+import com.asj.forestala2.exception.ErrorProcessException;
 import com.asj.forestala2.negocio.domain.Persona;
+import com.asj.forestala2.negocio.dto.ActualizarPersonaDTO;
+import com.asj.forestala2.negocio.dto.PersonaDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PersonaServicio {
 
-    public Persona updatePersona(int id, Persona persona);
+   Persona updatePersona(int id, ActualizarPersonaDTO actualizarPersonaDTO) throws ErrorProcessException;
 //    public Persona updatePersona2(int id, Persona persona);
 
-    public Optional<Persona> findById(int id);
-    public List<Persona> getAll();
+    PersonaDTO findById(int id) throws ErrorProcessException;
+    List<PersonaDTO> getAll() throws ErrorProcessException;
 
-    public void deletePersona(int id);
+    String deletePersona(int id) throws ErrorProcessException;
 
-    public Persona crearPersona(Persona persona);
+    Persona crearPersona(PersonaDTO personaDTO) throws ErrorProcessException;
 
-    List<Persona> getAllConPlant();
+    List<PersonaDTO> getAllConPlant() throws ErrorProcessException;
 }

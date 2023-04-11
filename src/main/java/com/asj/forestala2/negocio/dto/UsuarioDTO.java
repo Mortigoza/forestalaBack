@@ -12,10 +12,10 @@ import javax.validation.constraints.*;
 public class UsuarioDTO {
     private int idUsuario;
     @Email
-    @NotNull
+    @NotBlank(message = "El email es obligatorio")
     private String email;
-    @NotNull
-    @Min(value = 8)
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Size(min = 8)
     private String contrasenia;
 
     private int idPersonas;

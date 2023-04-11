@@ -39,10 +39,10 @@ class PersonaRepositoryTest {
     @Test
      void findByIdPersonas() {
         //GIVEN
-        int test = 2;
+        Long test = 2L;
 
         // WHEN
-        Optional<Persona> optionalPersona = personaRepository.findByIdPersonas(2);
+        Optional<Persona> optionalPersona = personaRepository.findByIdPersonas(2L);
         // THEN
         assertThat(optionalPersona.isPresent()).isTrue();
 

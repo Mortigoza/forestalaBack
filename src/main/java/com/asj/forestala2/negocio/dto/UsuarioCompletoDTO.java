@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -17,10 +15,10 @@ import javax.validation.constraints.NotNull;
 public class UsuarioCompletoDTO {
     private int idUsuario;
     @Email
-    @NotNull
+    @NotBlank(message = "El email es obligatorio")
     private String email;
-    @NotNull
-    @Min(value = 8)
+    @NotBlank(message = "La cotraseña es obligatoria")
+    @Size(min = 8)
     private String contrasenia;
 
     private Persona persona;

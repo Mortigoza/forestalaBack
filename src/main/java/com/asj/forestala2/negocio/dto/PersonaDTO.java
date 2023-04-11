@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -17,17 +18,17 @@ public class PersonaDTO {
 
     @Column(name = "id_personas")
     private int idPersonas;
-    @NotNull
+    @NotBlank(message = "El nonbre es obligatorio")
     private String nombre;
-    @NotNull
+    @NotBlank(message = "El apellido es obligatorio")
     private String apellido;
-    @NotNull
+    @NotBlank(message = "La calle es obligatoria")
     private String calle;
-    @NotNull
+    @NotBlank(message = "La altura es obligatoria")
     private String altura;
-    @NotNull
+    @NotBlank(message = "La localidad es obligatoria")
     private String localidad;
-    @NotNull
+    @NotBlank(message = "El teléfono de contacto es obligatorio")
     private String telContacto;
 
     private PlantacionParticular plantacionParticular;
