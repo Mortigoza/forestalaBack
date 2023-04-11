@@ -32,18 +32,8 @@ public class PlantacionParticularController {
     private final PersonaServicio personaServicio;
 
     @GetMapping
-    public ResponseEntity<List<PlantacionParticularDTO>> getAllPlantacionesParticulares(){
-        List<PlantacionParticular> plantacionesParticulares = this.plantacionParticularServicio.getAll();
-        List<PlantacionParticularDTO> plantacionesParticularesDTOS = plantacionesParticulares
-                .stream()
-                .map(plantacionParticular -> {
-                    PlantacionParticularDTO plantacionParticularDTO = plantacionesParticularesMapper.entityToDto(plantacionParticular);
-
-                    return plantacionParticularDTO;
-                }).collect(Collectors.toList());
-
-
-        return ResponseEntity.ok(plantacionesParticularesDTOS);
+    public ResponseEntity<List<?>> getAllPlantacionesParticulares() throws ErrorProcessException{
+        return ResponseEntity.ok(plantacionParticularServicio.getAll());
     }
 
     @GetMapping("/{id}")

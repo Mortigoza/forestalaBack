@@ -1,26 +1,31 @@
 package com.asj.forestala2.service.impl;
 
+import com.asj.forestala2.exception.ErrorProcessException;
 import com.asj.forestala2.exception.Excepciones;
 import com.asj.forestala2.negocio.domain.Persona;
 import com.asj.forestala2.negocio.domain.PlantacionParticular;
+import com.asj.forestala2.negocio.dto.PlantacionParticularDTO;
+import com.asj.forestala2.negocio.mapper.PlantacionesParticularesMapper;
 import com.asj.forestala2.repository.PersonaRepository;
 import com.asj.forestala2.repository.PlantacionParticularRepository;
 import com.asj.forestala2.service.PlantacionParticularServicio;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PlantacionParticularServicioImpl implements PlantacionParticularServicio {
 
     private final PlantacionParticularRepository plantacionParticularRepository;
     private final PersonaRepository personaRepository;
-    public PlantacionParticularServicioImpl(PlantacionParticularRepository plantacionParticularRepository, PersonaRepository personaRepository) {
-        this.plantacionParticularRepository = plantacionParticularRepository;
-        this.personaRepository = personaRepository;
-    }
+    private final PlantacionesParticularesMapper plantacionesParticularesMapper;
+
+    private final String ERROR_NOT_FOUND = "An error occurred in the process: ";
 
     @Override
     public void deletePlantacionParticular(int id) {
@@ -34,8 +39,15 @@ public class PlantacionParticularServicioImpl implements PlantacionParticularSer
     }
 
     @Override
-    public List<PlantacionParticular> getAll() {
-        return this.plantacionParticularRepository.findAll();
+    public List<PlantacionParticularDTO> getAll() throws ErrorProcessException {
+
+        try {
+            return plantacionParticularRepository.findAll().stream()
+                    .map(plantacionesParticularesMapper::entityToDto)
+                    .collect(Collectors.toList());
+        } catch (RuntimeException e){
+            throw new ErrorProcessException(ERROR_NOT_FOUND + e.getMessage());
+        }
     }
 
     @Override
