@@ -15,7 +15,7 @@ public interface PlantacionParticularServicio {
 
     public PlantacionParticularDTO findById(int id) throws ErrorProcessException;
 
-    public PlantacionParticular updatePlantacionParticular(int id, PlantacionParticular plantacionParticular);
+    public PlantacionParticular updatePlantacionParticular(int id, PlantacionParticularDTO plantacionParticularDTO) throws ErrorProcessException;
 
     public PlantacionParticular crearPlantacionParticular(PlantacionParticular plantacionParticular);
 

@@ -61,28 +61,26 @@ public class PlantacionParticularServicioImpl implements PlantacionParticularSer
         } catch (RuntimeException e){
             throw new ErrorProcessException(ERROR_NOT_FOUND + e.getMessage());
         }
-        //        PlantacionParticular plantacionParticular = plantacionParticularServicio.findById(id);
-//        PlantacionParticularDTO plantacionParticularDTO = plantacionesParticularesMapper.entityToDto(plantacionParticular);
-//        plantacionParticularDTO.setCodigo(plantacionParticular.getIdPlantacionesParticulares());
-//        return plantacionParticularDTO;
     }
 
     @Override
-    public PlantacionParticular updatePlantacionParticular(int id, PlantacionParticular plantacionParticular) {
-        PlantacionParticular plantacionParticularActualizada;
-        Optional<PlantacionParticular> optionalPlantacionParticular = this.plantacionParticularRepository.findById(id);
+    public PlantacionParticular updatePlantacionParticular(int id,
+                                                           PlantacionParticularDTO plantacionParticularDTO) throws ErrorProcessException{
+        PlantacionParticular plantacionParticular = plantacionParticularRepository
+                .findById(id).orElseThrow(()-> new NotFoundException("The platantation's id was not found in the database."));
 
-        if (optionalPlantacionParticular.isPresent()) {
-            plantacionParticularActualizada = optionalPlantacionParticular.get();
-        } else {
-            throw new RuntimeException("La plantacion particular con id " + id + " no existe");
+        try {
+            plantacionesParticularesMapper.dtoToEntity(plantacionParticularDTO);
+        } catch (RuntimeException e) {
+            throw new ErrorProcessException(ERROR_NOT_FOUND + e.getMessage());
         }
 
-        plantacionParticularActualizada.setArbol(plantacionParticular.isArbol());
-        plantacionParticularActualizada.setArbusto(plantacionParticular.isArbusto());
-        plantacionParticularActualizada.setEnredadera(plantacionParticular.isEnredadera());
+        plantacionParticular.setArbol(plantacionParticularDTO.isArbol());
+        plantacionParticular.setArbusto(plantacionParticularDTO.isArbusto());
+        plantacionParticular.setEnredadera(plantacionParticularDTO.isEnredadera());
 
-        return this.plantacionParticularRepository.save(plantacionParticularActualizada);
+        return this.plantacionParticularRepository.save(plantacionParticular);
+
     }
 
     @Override

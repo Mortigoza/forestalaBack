@@ -38,24 +38,14 @@ public class PlantacionParticularController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PlantacionParticularDTO>  obtenerPorId(@PathVariable("id") Integer id) throws ErrorProcessException {
-//        PlantacionParticular plantacionParticular = plantacionParticularServicio.findById(id);
-//        PlantacionParticularDTO plantacionParticularDTO = plantacionesParticularesMapper.entityToDto(plantacionParticular);
-//        plantacionParticularDTO.setCodigo(plantacionParticular.getIdPlantacionesParticulares());
-//        return plantacionParticularDTO;
         return ResponseEntity.ok(plantacionParticularServicio.findById(id));
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarPlantacionParticular(@PathVariable("id") Integer id, @RequestBody PlantacionParticularDTO plantacionParticularDTO){
-        try{
-            PlantacionParticular plantacionParticular = plantacionesParticularesMapper.dtoToEntity(plantacionParticularDTO);
-            PlantacionParticular plantacionParticularActualizada = plantacionParticularServicio.updatePlantacionParticular(id, plantacionParticular);
-            return ResponseEntity.status(HttpStatus.OK).body(plantacionParticularActualizada);
-        } catch (RuntimeException ex){
-            throw ex;
-        }
-
+    public ResponseEntity<?> actualizarPlantPart(@PathVariable("id") Integer id,
+                                                 @RequestBody PlantacionParticularDTO plantacionParticularDTO) throws ErrorProcessException{
+        return ResponseEntity.ok().body(plantacionParticularServicio.updatePlantacionParticular(id, plantacionParticularDTO));
     }
 
     @PostMapping("/{idPersonas}")

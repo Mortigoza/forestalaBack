@@ -30,7 +30,8 @@ public class PersonaController {
     private final PersonaServicio personService;
 
     @PutMapping ("/{id}")
-    public ResponseEntity<?> actualizarTodo(@PathVariable("id") Integer id,
+    @ApiOperation(value = "Update person", notes = "Returns response type person")
+    public ResponseEntity<?> updatePerson(@PathVariable("id") Integer id,
                                             @RequestBody ActualizarPersonaDTO  actualizarPersonaDTO) throws ErrorProcessException {
 
         return ResponseEntity.ok().body(personService.updatePersona(id, actualizarPersonaDTO));
