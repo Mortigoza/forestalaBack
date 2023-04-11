@@ -13,7 +13,7 @@ public interface PlantacionParticularServicio {
 
     public List<PlantacionParticularDTO> getAll() throws ErrorProcessException;
 
-    public PlantacionParticular findById(int id);
+    public PlantacionParticularDTO findById(int id) throws ErrorProcessException;
 
     public PlantacionParticular updatePlantacionParticular(int id, PlantacionParticular plantacionParticular);
 

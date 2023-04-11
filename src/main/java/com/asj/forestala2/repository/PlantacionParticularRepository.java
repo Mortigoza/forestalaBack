@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PlantacionParticularRepository extends JpaRepository<PlantacionParticular, Integer> {
-    public PlantacionParticular findByIdPlantacionesParticulares(int id);
+//    public PlantacionParticular findById(int id);
 
-    public Optional<PlantacionParticular> findByPersona(int idPersona);
+   Optional<PlantacionParticular> findByPersona(int idPersona);
 }

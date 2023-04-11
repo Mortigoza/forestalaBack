@@ -37,11 +37,12 @@ public class PlantacionParticularController {
     }
 
     @GetMapping("/{id}")
-    public PlantacionParticularDTO obtenerPorId(@PathVariable("id") Integer id){
-        PlantacionParticular plantacionParticular = plantacionParticularServicio.findById(id);
-        PlantacionParticularDTO plantacionParticularDTO = plantacionesParticularesMapper.entityToDto(plantacionParticular);
-        plantacionParticularDTO.setCodigo(plantacionParticular.getIdPlantacionesParticulares());
-        return plantacionParticularDTO;
+    public ResponseEntity<PlantacionParticularDTO>  obtenerPorId(@PathVariable("id") Integer id) throws ErrorProcessException {
+//        PlantacionParticular plantacionParticular = plantacionParticularServicio.findById(id);
+//        PlantacionParticularDTO plantacionParticularDTO = plantacionesParticularesMapper.entityToDto(plantacionParticular);
+//        plantacionParticularDTO.setCodigo(plantacionParticular.getIdPlantacionesParticulares());
+//        return plantacionParticularDTO;
+        return ResponseEntity.ok(plantacionParticularServicio.findById(id));
     }
 
 

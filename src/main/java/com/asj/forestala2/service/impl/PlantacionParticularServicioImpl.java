@@ -2,6 +2,7 @@ package com.asj.forestala2.service.impl;
 
 import com.asj.forestala2.exception.ErrorProcessException;
 import com.asj.forestala2.exception.Excepciones;
+import com.asj.forestala2.exception.NotFoundException;
 import com.asj.forestala2.negocio.domain.Persona;
 import com.asj.forestala2.negocio.domain.PlantacionParticular;
 import com.asj.forestala2.negocio.dto.PlantacionParticularDTO;
@@ -51,8 +52,19 @@ public class PlantacionParticularServicioImpl implements PlantacionParticularSer
     }
 
     @Override
-    public PlantacionParticular findById(int id) {
-        return this.plantacionParticularRepository.findByIdPlantacionesParticulares(id);
+    public PlantacionParticularDTO findById(int id) throws ErrorProcessException{
+        PlantacionParticular plantacionParticular = plantacionParticularRepository.findById(id).orElseThrow(()->
+                new NotFoundException("The particular plantation was not found in the database."));
+
+        try {
+            return plantacionesParticularesMapper.entityToDto(plantacionParticular);
+        } catch (RuntimeException e){
+            throw new ErrorProcessException(ERROR_NOT_FOUND + e.getMessage());
+        }
+        //        PlantacionParticular plantacionParticular = plantacionParticularServicio.findById(id);
+//        PlantacionParticularDTO plantacionParticularDTO = plantacionesParticularesMapper.entityToDto(plantacionParticular);
+//        plantacionParticularDTO.setCodigo(plantacionParticular.getIdPlantacionesParticulares());
+//        return plantacionParticularDTO;
     }
 
     @Override
